@@ -1,0 +1,3 @@
+[BASIC]
+# No docstring required for internal methods or unit tests
+no-docstring-rgx=(__|test|Test).*
