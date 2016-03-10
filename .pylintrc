@@ -1,3 +1,8 @@
 [BASIC]
 # No docstring required for internal methods or unit tests
 no-docstring-rgx=__.*
+
+[MESSAGES CONTROL]
+# Disable since code is bound to be duplicated with many different
+# implementations of the same thing
+disable=duplicate-code
