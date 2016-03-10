@@ -8,7 +8,6 @@ For more information about segment trees see:
 -http://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/
 """
 from math import ceil, log
-import unittest
 
 
 class SegmentTree(object):
@@ -172,51 +171,3 @@ class SegmentTree(object):
         self.__tree[index] = max(self.__tree[index * 2 + 1],
                                  self.__tree[index * 2 + 2])
     # pylint: enable=too-many-arguments
-
-
-class TestSegmentTree(unittest.TestCase):
-    def test_create(self):
-        nums = range(1, 6)
-        tree = SegmentTree(nums)
-        for i in xrange(len(nums)):
-            self.assertEqual(nums[i], tree.query_point(i))
-
-    def test_query_left(self):
-        nums = range(1, 6) + range(5, 0, -1)
-        tree = SegmentTree(nums)
-
-        for i in xrange(len(nums)):
-            self.assertEqual(max(nums[:i + 1]), tree.query_left(i))
-
-    def test_query_right(self):
-        nums = range(1, 6) + range(5, 0, -1)
-        tree = SegmentTree(nums)
-
-        for i in xrange(len(nums)):
-            self.assertEqual(max(nums[i:]), tree.query_right(i))
-
-    def test_query_range(self):
-        nums = range(1, 6) + range(5, 0, -1)
-        tree = SegmentTree(nums)
-
-        for i in xrange(len(nums)):
-            for j in xrange(i, len(nums)):
-                self.assertEqual(max(nums[i:j + 1]), tree.query_range(i, j))
-
-    def test_update_point(self):
-        nums = range(1, 6) + range(5, 0, -1)
-        tree = SegmentTree(nums)
-
-        for i in xrange(len(nums)):
-            tree.update_point(i, i + 15)
-            self.assertEqual(i + 15, tree.query_point(i))
-            self.assertEqual(i + 15, tree.query_right(0))
-
-    def test_update_range(self):
-        for i in xrange(4, 0, -1):
-            tree = SegmentTree(range(1, 6))
-            tree.update_range(i, 4, 0)
-            self.assertEqual(i, tree.query_range(0, 4))
-
-if __name__ == '__main__':
-    unittest.main()
