@@ -3,9 +3,16 @@
 performance all the items are always on the lowest level of the tree
 so that they can be accessed in O(1) time.
 
+Time complexity of the operations:
+- creation: O(n)
+- point query: O(1)
+- range query: O(log n)
+- point update: O(log n)
+- range update: O(k) where k equals the length of updated range
+
 For more information about segment trees see:
 - https://en.wikipedia.org/wiki/Segment_tree
--http://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/
+- http://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/
 """
 from math import ceil, log
 
@@ -156,13 +163,16 @@ class SegmentTree(object):
 
     # pylint: disable=too-many-arguments
     def __update_range(self, index, s_start, s_end, r_start, r_end, value):
+        # Stop if out of range or update is not needed
         if r_end < s_start or r_start > s_end or self.__tree[index] == value:
             return
 
+        # Single item segment, update self and stop
         if s_start == s_end:
             self.__tree[index] = value
             return
 
+        # Multi item segment, update both children and then update self
         mid = s_start + (s_end - s_start) / 2
         self.__update_range(index * 2 + 1, s_start, mid,
                             r_start, r_end, value)
