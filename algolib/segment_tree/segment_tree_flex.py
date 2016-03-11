@@ -20,14 +20,19 @@ from operator import add
 
 
 class SegmentTree(object):
-    """Maximum segment tree"""
+    """Maximum segment tree
+
+    Attributes:
+        __tree: List storing the values, children can be found from indexes
+            index * 2 + 1 and index * 2 + 1
+    """
 
     def __init__(self, seq=None, merge=add, size=0, default=0):
         """Constructor, creates segment tree from given sequence or empty
         segment tree of given size.
 
         Args:
-            seq: Items to store in segment tree
+            seq: Values to store in segment tree
             merge: Merge function that returns combined value for two children
             size: Size of segment tree in case sequence was not given
             default: Default value, used in case that size has been given
@@ -53,17 +58,24 @@ class SegmentTree(object):
         return str(self.__tree)
 
     def query_point(self, index):
-        """Returns item in given index."""
+        """Returns value in given index.
+
+        Args:
+            index: Index of the value to return
+
+        Returns:
+            Value in given index
+        """
         return self.__tree[len(self.__tree) / 2 + index]
 
     def query_left(self, index):
-        """Returns the maximum item in range 0...index (inclusive).
+        """Returns the maximum value in range 0...index (inclusive).
 
         Args:
             index: Last index of the query
 
         Returns:
-            Maximum item in the range
+            Maximum value in the range
         """
         index += len(self.__tree) / 2
 
@@ -82,13 +94,13 @@ class SegmentTree(object):
         return res
 
     def query_right(self, index):
-        """Returns maximum item in range index...length-1 (inclusive).
+        """Returns maximum value in range index...length-1 (inclusive).
 
         Args:
             index: First index of the query
 
         Returns:
-            Maximum item in the range
+            Maximum value in the range
         """
         index += len(self.__tree) / 2
 
@@ -107,14 +119,14 @@ class SegmentTree(object):
         return res
 
     def query_range(self, r_start, r_end):
-        """Returns maximum item in r_start...r_end (inclusive).
+        """Returns maximum value in range r_start...r_end (inclusive).
 
         Args:
             r_start: First index of the query
             r_end: Last index of the query
 
         Returns:
-            Maximum item in the range
+            Maximum value in the range
         """
         if r_start == r_end:
             return self.query_point(r_start)
@@ -142,7 +154,7 @@ class SegmentTree(object):
         return self.__merge(val_s, val_e)
 
     def update_point(self, index, val):
-        """Updates item in given index.
+        """Updates value in given index.
 
         Args:
             index: Index to update
@@ -161,7 +173,7 @@ class SegmentTree(object):
             self.__tree[index] = new_val
 
     def update_range(self, range_start, range_end, value):
-        """Updates all items in range_start...range_end (inclusive).
+        """Updates all values in range_start...range_end (inclusive).
 
         Args:
             range_start: Range start
@@ -177,12 +189,12 @@ class SegmentTree(object):
         if r_end < s_start or r_start > s_end:
             return
 
-        # Single item segment, update value and stop
+        # Single value segment, update value and stop
         if s_start == s_end:
             self.__tree[index] = value
             return
 
-        # Multi item segment, update both children and then update self
+        # Multi value segment, update both children and then update self
         mid = s_start + (s_end - s_start) / 2
         self.__update_range(index * 2 + 1, s_start, mid,
                             r_start, r_end, value)
