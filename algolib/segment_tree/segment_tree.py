@@ -42,14 +42,13 @@ class SegmentTree(object):
             tree = [0] * (2 ** (depth + 1) - 1)
 
         self.__tree = tree
-        self.__start = len(tree) / 2
 
     def __str__(self):
         return str(self.__tree)
 
     def query_point(self, index):
         """Returns item in given index."""
-        return self.__tree[self.__start + index]
+        return self.__tree[len(self.__tree) / 2 + index]
 
     def query_left(self, index):
         """Returns the maximum item in range 0...index (inclusive).
@@ -60,7 +59,7 @@ class SegmentTree(object):
         Returns:
             Maximum item in the range
         """
-        index += self.__start
+        index += len(self.__tree) / 2
 
         # Find first node that is not a right child
         while index and index % 2 == 0:
@@ -85,7 +84,7 @@ class SegmentTree(object):
         Returns:
             Maximum item in the range
         """
-        index += self.__start
+        index += len(self.__tree) / 2
 
         # Find first node that is not a left child
         while index % 2:
@@ -111,8 +110,8 @@ class SegmentTree(object):
         Returns:
             Maximum item in the range
         """
-        start = self.__start + r_start
-        end = self.__start + r_end
+        start = len(self.__tree) / 2 + r_start
+        end = len(self.__tree) / 2 + r_end
 
         val_s = self.__tree[start]
         val_e = self.__tree[end]
@@ -140,7 +139,7 @@ class SegmentTree(object):
             index: Index to update
             val: New value
         """
-        index += self.__start
+        index += len(self.__tree) / 2
         self.__tree[index] = val
 
         # Update parent nodes while the new value is larger than current
@@ -158,7 +157,7 @@ class SegmentTree(object):
             range_end: Range end
             value: New value
         """
-        return self.__update_range(0, 0, self.__start,
+        return self.__update_range(0, 0, len(self.__tree) / 2,
                                    range_start, range_end, value)
 
     # pylint: disable=too-many-arguments
