@@ -128,7 +128,7 @@ class SegmentTree(object):
         val_s = self.__tree[start]
         val_e = self.__tree[end]
 
-        # Loop while end & start are not siblings
+        # Traverse up the tree while there are values between start and end
         while end - start > 1:
 
             # If start is left child then consider right child as well
