@@ -147,7 +147,7 @@ class SegmentTree(object):
         val_e = self.__tree[end]
 
         # Traverse up the tree while start and end are not siblings
-        while (end - 1) / 2 != (start - 1) / 2:
+        while (start - 1) / 2 != (end - 1) / 2:
 
             # If start is left child then consider right child as well
             if start % 2:
@@ -184,12 +184,7 @@ class SegmentTree(object):
         self.__tree[index] = val
 
         # Update parent nodes if needed
-        while index:
-            index = (index - 1) / 2
-            val += self.__pending[index]
-            if val <= self.__tree[index]:
-                break
-            self.__tree[index] = val
+        self.__update_parent(index)
 
     def update_left(self, index, diff):
         """Adds value to all values in range 0...index (inclusive).
@@ -217,7 +212,7 @@ class SegmentTree(object):
                 self.__pending[index - 1] += diff
                 self.__tree[index - 1] += diff
 
-            # Moved up the tree
+            # Move up the tree
             index = (index - 1) / 2
 
             # Update this node
@@ -250,9 +245,100 @@ class SegmentTree(object):
                 self.__pending[index + 1] += diff
                 self.__tree[index + 1] += diff
 
-            # Moved up the tree
+            # Move up the tree
             index = (index - 1) / 2
 
             # Update this node
             val = max(self.__tree[index * 2 + 1], self.__tree[index * 2 + 2])
             self.__tree[index] = val + self.__pending[index]
+
+    def update_range(self, range_start, range_end, diff):
+        """Updates all values in range_start...range_end (inclusive).
+
+        Args:
+            range_start: First index to update
+            range_end: Last index to update
+            diff: Value to add
+        """
+        start = len(self.__tree) / 2 + range_start
+        end = len(self.__tree) / 2 + range_end
+        l_pending = r_pending = True
+
+        if start == end:
+            self.__tree[start] += diff
+            return
+
+        # Update the root level if start is right child or end is left child
+        if start % 2 == 0:
+            self.__tree[start] += diff
+            l_pending = False
+
+        if end % 2:
+            self.__tree[end] += diff
+            r_pending = False
+
+        # Traverse up the tree while start and end are not siblings
+        while (start - 1) / 2 != (end - 1) / 2:
+            start = (start - 1) / 2
+            end = (end - 1) / 2
+
+            # Potentially update sibling of start and end unless they
+            # are each other's siblings
+            if start != end - 1:
+                if start % 2 and not l_pending:
+                    # Start is left child and one of it's children have been
+                    # already updated -> update sibling
+                    self.__tree[start + 1] += diff
+                    self.__pending[start + 1] += diff
+                elif start % 2 == 0 and l_pending:
+                    # Start is right child but none of it's children have been
+                    # updated -> update start
+                    self.__tree[start] += diff
+                    self.__pending[start] += diff
+                    l_pending = False
+
+                if end % 2 and r_pending:
+                    # End is left child and none of it's children have been
+                    # been updated -> update end
+                    self.__tree[end] += diff
+                    self.__pending[end] += diff
+                    r_pending = False
+                elif end % 2 == 0 and not r_pending:
+                    # End is right child and one of it's children have been
+                    # updated -> update sibling
+                    self.__tree[end - 1] += diff
+                    self.__pending[end - 1] += diff
+
+            # Update start & end
+            self.__tree[start] = max(self.__tree[start * 2 + 1],
+                                     self.__tree[start * 2 + 2])
+            self.__tree[start] += self.__pending[start]
+
+            self.__tree[end] = max(self.__tree[end * 2 + 1],
+                                   self.__tree[end * 2 + 2])
+            self.__tree[end] += self.__pending[end]
+
+        # Now start & end are siblings which have been updated if they are
+        # not fully withing a range. Handle the cases where one of them is
+        # fully within here.
+        if l_pending and r_pending:
+            self.__pending[(start - 1) / 2] += diff
+        elif l_pending:
+            self.__tree[start] += diff
+            self.__pending[start] += diff
+        elif r_pending:
+            self.__tree[end] += diff
+            self.__pending[end] += diff
+
+        # Traverse up the tree and update value if needed
+        self.__update_parent(start)
+
+    def __update_parent(self, index):
+        val = self.__tree[index]
+
+        while index:
+            index = (index - 1) / 2
+            val += self.__pending[index]
+            if val <= self.__tree[index]:
+                break
+            self.__tree[index] = val

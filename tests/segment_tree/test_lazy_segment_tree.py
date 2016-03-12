@@ -78,3 +78,14 @@ class TestSegmentTree(unittest.TestCase):
             for j in xrange(len(nums)):
                 for k in xrange(j, len(nums)):
                     self.assertEqual(max(nums[j:k + 1]), tree.query_range(j, k))
+
+    def test_update_range(self):
+        nums = range(5)
+        tree = lazy_segment_tree.SegmentTree(nums)
+
+        for i in xrange(len(nums)):
+            for j in xrange(i + 1, len(nums) + 1):
+                tree.update_range(i, j - 1, 1)
+                for k in xrange(i, j):
+                    nums[k] += 1
+                    self.assertEqual(nums[k], tree.query_point(k))
