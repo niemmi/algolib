@@ -24,6 +24,14 @@ class TestSegmentTree(unittest.TestCase):
         for i in xrange(len(nums)):
             self.assertEqual(max(nums[i:]), tree.query_right(i))
 
+    def test_query_range(self):
+        nums = range(1, 6) + range(5, 0, -1)
+        tree = lazy_segment_tree.SegmentTree(nums)
+
+        for i in xrange(len(nums)):
+            for j in xrange(i, len(nums)):
+                self.assertEqual(max(nums[i:j + 1]), tree.query_range(i, j))
+
     def test_update_point(self):
         nums = range(1, 6)
         tree = lazy_segment_tree.SegmentTree(nums)
@@ -59,3 +67,14 @@ class TestSegmentTree(unittest.TestCase):
                 nums[j] += 1
             for j in xrange(len(nums)):
                 self.assertEqual(max(nums[j:]), tree.query_right(j))
+
+    def test_update_query_range(self):
+        nums = [1] * 5
+        tree = lazy_segment_tree.SegmentTree(nums)
+        for i in xrange(len(nums)):
+            tree.update_right(i, 1)
+            for j in xrange(i, 5):
+                nums[j] += 1
+            for j in xrange(len(nums)):
+                for k in xrange(j, len(nums)):
+                    self.assertEqual(max(nums[j:k + 1]), tree.query_range(j, k))

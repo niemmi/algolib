@@ -130,6 +130,48 @@ class SegmentTree(object):
 
         return res
 
+    def query_range(self, r_start, r_end):
+        """Returns maximum value in range r_start...r_end (inclusive).
+
+        Args:
+            r_start: First index of the query
+            r_end: Last index of the query
+
+        Returns:
+            Maximum value in the range
+        """
+        start = len(self.__tree) / 2 + r_start
+        end = len(self.__tree) / 2 + r_end
+
+        val_s = self.__tree[start]
+        val_e = self.__tree[end]
+
+        # Traverse up the tree while start and end are not siblings
+        while (end - 1) / 2 != (start - 1) / 2:
+
+            # If start is left child then consider right child as well
+            if start % 2:
+                val_s = max(val_s, self.__tree[start + 1])
+
+            # If end is right child then consider left child as well
+            if end % 2 == 0:
+                val_e = max(val_e, self.__tree[end - 1])
+
+            start = (start - 1) / 2
+            end = (end - 1) / 2
+
+            val_s += self.__pending[start]
+            val_e += self.__pending[end]
+
+        val = max(val_s, val_e)
+
+        # Traverse to root and and pending updates
+        while start:
+            start = (start - 1) / 2
+            val += self.__pending[start]
+
+        return val
+
     def update_point(self, index, diff):
         """Adds number to given index.
 
