@@ -180,8 +180,7 @@ class SegmentTree(object):
             diff: Value to add
         """
         index += len(self.__tree) / 2
-        val = self.__tree[index] + diff
-        self.__tree[index] = val
+        self.__tree[index] += diff
 
         # Update parent nodes if needed
         self.__update_parent(index)
