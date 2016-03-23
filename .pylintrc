@@ -1,6 +1,9 @@
 [BASIC]
 # No docstring required for internal methods or unit tests
 no-docstring-rgx=__.*
+# x and y are perfect for coordinates
+good-names=i,j,k,ex,Run,_,x,y
+
 
 [MESSAGES CONTROL]
 # Disable since code is bound to be duplicated with many different
