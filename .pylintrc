@@ -2,7 +2,8 @@
 # No docstring required for internal methods or unit tests
 no-docstring-rgx=__.*
 # x and y are perfect for coordinates
-good-names=i,j,k,ex,Run,_,x,y
+# to is valid name
+good-names=i,j,k,ex,Run,_,x,y,to
 
 
 [MESSAGES CONTROL]
