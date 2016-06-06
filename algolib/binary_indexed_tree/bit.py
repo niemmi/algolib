@@ -10,7 +10,7 @@ Time complexity of the operations:
 - range query: O(log n)
 - point update O(log n)
 
-For more information about binary indexed trees wee:
+For more information about binary indexed trees see:
 - https://en.wikipedia.org/wiki/Fenwick_tree
 - https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/
 """
