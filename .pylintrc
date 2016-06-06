@@ -3,7 +3,7 @@
 no-docstring-rgx=__.*
 # x and y are perfect for coordinates
 # to is valid name
-good-names=i,j,k,ex,Run,_,x,y,to
+good-names=i,j,k,ex,Run,_,x,y,to,it,op
 
 
 [MESSAGES CONTROL]
