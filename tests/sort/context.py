@@ -6,3 +6,5 @@ from algolib.sort import insertion_sort
 from algolib.sort import merge_sort
 from algolib.sort import quicksort
 from algolib.sort import selection_sort
+from algolib.sort import heap_sort
+
