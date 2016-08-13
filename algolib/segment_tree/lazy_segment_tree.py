@@ -31,7 +31,7 @@ class SegmentTree(object):
     """
 
     def __init__(self, seq=None, size=0):
-        """Constructor, creates segment tree from given sequence or empty
+        """Initializer, initializes segment tree from given sequence or empty
         segment tree of given size.
 
         Args:

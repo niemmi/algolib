@@ -48,7 +48,7 @@ class SegmentTree(object):
     # pylint: disable=too-many-arguments
     def __init__(self, seq=None, merge_value=add, update=update_sum,
                  merge_update=add, default_value=0, default_update=0, size=0):
-        """Creates new instance of the segment tree.
+        """Initializer, initializes segment tree with given parameters.
 
         Args:
             seq: Sequence of values to add, if not passed then size and

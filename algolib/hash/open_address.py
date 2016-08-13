@@ -25,7 +25,7 @@ class Hash(object):
         size: Number of items in the table
     """
     def __init__(self, it=None):
-        """Initialized.
+        """Initializer, initializes Hash from given iterable.
 
         Args:
             it: Optional iterable which contents are added to table.

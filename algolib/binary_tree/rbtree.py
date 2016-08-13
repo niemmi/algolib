@@ -22,7 +22,7 @@ class Node(object):
         right: Right child.
     """
     def __init__(self, value, parent=None):
-        """Constructor.
+        """Initializer, initializes node with given value and parent.
 
         Args:
             value: Value to store.
