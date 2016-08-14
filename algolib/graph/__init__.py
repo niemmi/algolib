@@ -2,3 +2,5 @@
 
 from algolib.graph.undirected import Undirected
 from algolib.graph.directed import Directed
+
+from algolib.graph.dfs import DFS
