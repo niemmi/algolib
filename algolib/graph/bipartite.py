@@ -1,4 +1,4 @@
-"""Tests if graph is bipartite, time complexity(V + E)."""
+"""Tests if graph is bipartite, time complexity: O(V + E)."""
 from algolib.graph.bfs import BFS
 
 # Vertex colors in bipartite graph
