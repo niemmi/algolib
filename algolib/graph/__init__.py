@@ -6,3 +6,4 @@ from algolib.graph.directed import Directed
 from algolib.graph.dfs import DFS
 from algolib.graph.bfs import BFS
 from algolib.graph.bipartite import bipartite
+from algolib.graph.topsort import top_sort

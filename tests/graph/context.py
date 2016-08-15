@@ -7,3 +7,4 @@ from algolib.graph import Directed
 from algolib.graph import DFS
 from algolib.graph import BFS
 from algolib.graph import bipartite
+from algolib.graph import top_sort
