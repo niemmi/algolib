@@ -1,5 +1,5 @@
 import unittest
-from .context import Undirected, BFS, bipartite
+from .context import Undirected, bipartite
 
 EDGES = [
     [8, 4],
