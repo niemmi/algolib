@@ -8,3 +8,4 @@ from algolib.graph import DFS
 from algolib.graph import BFS
 from algolib.graph import bipartite
 from algolib.graph import top_sort
+from algolib.graph import cut_edges, cut_vertices
