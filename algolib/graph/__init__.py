@@ -9,3 +9,4 @@ from algolib.graph.bipartite import bipartite
 from algolib.graph.topsort import top_sort
 from algolib.graph.cut import cut_edges, cut_vertices
 from algolib.graph.strong_components import strong_components
+from algolib.graph.prim import prim
