@@ -12,3 +12,4 @@ from algolib.graph.strong_components import strong_components
 from algolib.graph.prim import prim
 from algolib.graph.kruskal import kruskal
 from algolib.graph.dijkstra import dijkstra, dijkstra_path
+from algolib.graph.floyd import floyd
