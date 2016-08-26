@@ -10,4 +10,5 @@ good-names=i,j,k,ex,Run,_,x,y,to,it,op,v,n
 [MESSAGES CONTROL]
 # Disable since code is bound to be duplicated with many different
 # implementations of the same thing
-disable=duplicate-code
+# Disable warning about locally disabled warnings
+disable=duplicate-code, I0011, I0012
