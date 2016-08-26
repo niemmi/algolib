@@ -14,3 +14,4 @@ from algolib.graph import prim
 from algolib.graph import kruskal
 from algolib.graph import dijkstra, dijkstra_path
 from algolib.graph import floyd
+from algolib.graph import edmonds_karp
