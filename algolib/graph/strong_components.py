@@ -36,6 +36,7 @@ def __process_edge(_graph, dfs, source, dest, _edge):
         if dst.entry < dfs[src.low].entry:
             src.low = dest
 
+    return True
 
 def strong_components(graph):
     """Finds strongly connected components from given directed graph.

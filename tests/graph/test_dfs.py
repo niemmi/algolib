@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 from .context import Undirected, Directed, DFS
 from collections import OrderedDict
 
@@ -41,7 +41,8 @@ CATEGORIES = {
     (2, 7): DFS.TREE
 }
 
-class TestDFSUndirected(unittest.TestCase):
+
+class TestDFSUndirected(TestCase):
     def setUp(self):
         self.g = Undirected()
         for x, y in EDGES:
@@ -79,9 +80,25 @@ class TestDFSUndirected(unittest.TestCase):
             if dfs[dest].state == DFS.UNDISCOVERED:
                 self.assertIn(source, PARENT[dest])
 
+            return True
+
         dfs = DFS(self.g, process_edge=hook)
         dfs.execute(8)
         self.assertFalse(edges)
+
+    def test_process_edge_result(self):
+        count = [0]
+
+        def edge_hook(*_):
+            return False
+
+        def vertex_hook(*_):
+            count[0] += 1
+
+        bfs = DFS(self.g, process_vertex_early=vertex_hook,
+                  process_edge=edge_hook)
+        bfs.execute(8)
+        self.assertEqual(1, count[0])
 
     def test_call_process_vertex_late(self):
         dfs = None
@@ -124,7 +141,8 @@ CATEGORIES_DIRECTED = {
     (3, 0): DFS.BACK
 }
 
-class TestDFSDirected(unittest.TestCase):
+
+class TestDFSDirected(TestCase):
     def setUp(self):
         self.g = Directed()
         for x, y in CATEGORIES_DIRECTED:

@@ -11,7 +11,7 @@ Time complexity: O(V + E)
 
 def _hook(*_):
     """Default hook to be called in case user doesn't provide one."""
-    pass
+    return True
 
 
 class DFS(object):
@@ -42,7 +42,8 @@ class DFS(object):
                 graph: The graph n which DFS is being done.
                 dfs: DFS object.
                 vertex: Vertex that is being processed.
-        process_edge: Hook that is called when edge is processed.
+        process_edge: Hook that is called when edge is processed. Returns True
+            if edge can be advanced, False if not.
 
             hook(graph, dfs, source, dest, edge):
                 graph: The graph n which DFS is being done.
@@ -124,8 +125,8 @@ class DFS(object):
 
             if n.state == self.UNDISCOVERED:
                 n.parent = vertex
-                self.process_edge(self.graph, self, vertex, other, edge)
-                self.execute(other)
+                if self.process_edge(self.graph, self, vertex, other, edge):
+                    self.execute(other)
             elif (n.state == self.DISCOVERED and other != v.parent) or directed:
                 self.process_edge(self.graph, self, vertex, other, edge)
 

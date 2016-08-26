@@ -12,7 +12,8 @@ from collections import deque
 
 def _hook(*_):
     """Default hook to be called in case user doesn't provide one."""
-    pass
+    return True
+
 
 # Single algorithm, can't be that many public methods
 # pylint: disable=too-few-public-methods
@@ -40,7 +41,8 @@ class BFS(object):
                 graph: The graph n which BFS is being done.
                 bfs: BFS object.
                 vertex: Vertex that is being processed.
-        process_edge: Hook that is called when edge is processed.
+        process_edge: Hook that is called when edge is processed. Returns True
+            if edge can be advanced, False if not.
 
             hook(graph, bfs, source, dest, edge):
                 graph: The graph n which BFS is being done.
@@ -100,7 +102,9 @@ class BFS(object):
             for edge, other in self.graph.edges_from(vertex):
                 obj = self[other]
                 if obj.state != self.PROCESSED or self.graph.directed:
-                    self.process_edge(self.graph, self, vertex, other, edge)
+                    if not self.process_edge(self.graph, self, vertex,
+                                             other, edge):
+                        continue
                 if obj.state == self.UNDISCOVERED:
                     obj.state = self.DISCOVERED
                     obj.parent = vertex

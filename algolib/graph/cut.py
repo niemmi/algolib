@@ -55,6 +55,7 @@ def __process_edge(_graph, dfs, source, dest, _edge):
     elif category == DFS.BACK and dest != dfs[source].parent:
         dfs[source].reachable_ancestor = dest
 
+    return True
 
 def cut_vertices(graph):
     """Returns all the cut vertices in given undirected graph.

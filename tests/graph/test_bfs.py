@@ -1,7 +1,6 @@
-import unittest
-from .context import Undirected, Directed, BFS
+from unittest import TestCase
+from .context import Undirected, BFS
 from collections import deque, OrderedDict
-from itertools import groupby
 
 EDGES = [
     [8, 4],
@@ -17,7 +16,8 @@ EDGES = [
 
 ORDER = [8, 4, 1, 0, 3, 5, 2, 6, 7]
 
-class TestBFSUndirected(unittest.TestCase):
+
+class TestBFSUndirected(TestCase):
     def setUp(self):
         self.g = Undirected()
 
@@ -76,7 +76,22 @@ class TestBFSUndirected(unittest.TestCase):
             self.assertEqual(tuple(sorted(order.popleft())), edge)
             self.assertEqual(tuple(sorted([source, dest])), edge)
             self.assertEqual(BFS.PROCESSED, cb_bfs[source].state)
+            return True
 
         bfs = BFS(self.g, process_edge=hook)
         bfs.execute(8)
         self.assertFalse(order)
+
+    def test_process_edge_result(self):
+        count = [0]
+
+        def edge_hook(*_):
+            return False
+
+        def vertex_hook(*_):
+            count[0] += 1
+
+        bfs = BFS(self.g, process_vertex_early=vertex_hook,
+                  process_edge=edge_hook)
+        bfs.execute(8)
+        self.assertEqual(1, count[0])

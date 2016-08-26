@@ -13,7 +13,7 @@ def __process_edge(_graph, bfs, source, dest, _edge):
         raise StopIteration
 
     bfs.color[dest] = int(not bfs.color[source])
-
+    return True
 
 def bipartite(graph):
     """Checks if given graph is bipartite.

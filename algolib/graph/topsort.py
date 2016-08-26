@@ -11,6 +11,8 @@ def __process_edge(_dag, dfs, source, dest, _edge):
     if category == DFS.BACK:
         raise StopIteration
 
+    return True
+
 
 def top_sort(dag):
     """Topological sort.
