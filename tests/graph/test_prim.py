@@ -12,6 +12,14 @@ CASES = [
     },
     {
         'edges': [
+            [0, 1, -2],
+            [0, 2, -3],
+            [1, 2, -4]
+        ],
+        'expected': -7
+    },
+    {
+        'edges': [
             [0, 1, 2],
             [0, 2, 3],
             [0, 3, 5],
@@ -51,3 +59,11 @@ class TestPrim(TestCase):
 
             self.assertEqual(case['expected'],
                              sum(graph[x][y]['weight'] for x, y in prim(graph)))
+
+    def test_raises_error_on_unconnected(self):
+        graph = Undirected()
+        graph.insert_vertex(1)
+        graph.insert_vertex(2)
+
+        with self.assertRaises(ValueError):
+            prim(graph)

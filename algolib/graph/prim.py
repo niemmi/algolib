@@ -1,8 +1,9 @@
 """Prim's algorithm for finding minimum spanning tree from undirected weighted
-graph. Time complexity: O(V^2).
+graph. Time complexity: O(E log V).
 
 For more information see https://en.wikipedia.org/wiki/Prim%27s_algorithm.
 """
+from algolib.heap import BinaryHeap
 
 
 def prim(graph):
@@ -14,35 +15,41 @@ def prim(graph):
     Returns:
         List of edges in minimum spanning tree.
     """
-    # Store vertices not yet in the tree to a dict
-    # {vertex: [distance, closest vertex in the tree]}
-    distance = {vertex: [float('inf'), None] for vertex in graph.vertices}
+    if not graph.vertices:
+        return []
+
+    # Edges of result MST
     edges = []
 
-    # Start from random vertex, iterate over all vertices
-    vertex = next(iter(graph.vertices), None)
-    while vertex is not None:
-        del distance[vertex]
-        min_vertex = None
-        min_dist = float('inf')
+    # Store vertices not yet in the tree to a dict
+    # {vertex: [distance, closest vertex in the tree]}
+    distances = {vertex: [float('inf'), None] for vertex in graph.vertices}
 
-        # Iterate over unconnected vertices
-        for other in distance:
-            # Update ones that are connected to selected vertex
-            if other in graph[vertex]:
-                weight = graph[vertex][other]['weight']
-                if weight < distance[other][0]:
-                    distance[other] = [weight, vertex]
+    # Store vertex, distance pairs to min heap prioritized by distance
+    # and mark one of the vertices as start vertex
+    min_heap = BinaryHeap((vertex, float('inf')) for vertex in graph.vertices)
+    min_heap.change_value(next(iter(graph.vertices)), 0)
 
-            # Find unconnected vertex with minimum distance to process next
-            if distance[other][0] < min_dist:
-                min_vertex = other
-                min_dist = distance[other][0]
+    while min_heap:
+        vertex, weight = min_heap.pop()
 
-        vertex = min_vertex
+        # If there's a vertex that can't be reached it means that graph
+        # is not connected
+        if weight == float('inf'):
+            raise ValueError('Graph is not connected')
 
-        # If there's next vertex to process add edge connecting it to tree
-        if vertex:
-            edges.append([vertex, distance[vertex][1]])
+        # Pop vertex off from parent map and add edge to it to result MST
+        # in case that it wasn't first vertex to process
+        _, parent = distances.pop(vertex)
+        if parent is not None:
+            edges.append([parent, vertex])
+
+        # Update distance to all the neighboring vertices if required
+        for other in graph[vertex]:
+            weight = graph[vertex][other]['weight']
+
+            if weight < distances.get(other, (-float('inf'), None))[0]:
+                distances[other] = (weight, vertex)
+                min_heap.change_value(other, weight)
 
     return edges
