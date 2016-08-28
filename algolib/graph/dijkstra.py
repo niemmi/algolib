@@ -2,8 +2,9 @@
 graph. Works both with directed and undirected graphs as long as all the edges
 have a property called 'weight'.
 
-Time complexity: O(V^2)
+Time complexity: O(E log V)
 """
+from algolib.heap import BinaryHeap
 
 
 def dijkstra(graph, source, target=None):
@@ -19,22 +20,23 @@ def dijkstra(graph, source, target=None):
         Dictionary where vertices are keys and values are [distance, parent]
         pairs.
     """
-    to_visit = set(graph.vertices)
+    min_heap = BinaryHeap((vertex, float('inf')) for vertex in graph.vertices)
     result = {vertex: [float('inf'), None] for vertex in graph.vertices}
+    min_heap.change_value(source, 0)
     result[source][0] = 0
 
-    while to_visit and source != target:
-        source = min(to_visit, key=lambda x: result[x][0])
+    while min_heap and source != target:
+        source, distance = min_heap.pop()
 
-        if result[source][0] == float('inf'):
+        # Graph is disconnected
+        if distance == float('inf'):
             break
 
-        to_visit.remove(source)
-
         for other in graph[source]:
-            distance = result[source][0] + graph[source][other]['weight']
-            if distance < result[other][0]:
-                result[other] = [distance, source]
+            distance_to_other = distance + graph[source][other]['weight']
+            if distance_to_other < result[other][0]:
+                min_heap.change_value(other, distance_to_other)
+                result[other] = [distance_to_other, source]
 
     return result
 
