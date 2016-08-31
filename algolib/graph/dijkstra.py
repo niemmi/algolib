@@ -4,7 +4,7 @@ have a property called 'weight'.
 
 Time complexity: O(E log V)
 """
-from algolib.heap import BinaryHeap
+from algolib.priority_queue import PriorityQueue
 
 
 def dijkstra(graph, source, target=None):
@@ -20,13 +20,13 @@ def dijkstra(graph, source, target=None):
         Dictionary where vertices are keys and values are [distance, parent]
         pairs.
     """
-    min_heap = BinaryHeap((vertex, float('inf')) for vertex in graph.vertices)
+    queue = PriorityQueue((float('inf'), vertex) for vertex in graph.vertices)
     result = {vertex: [float('inf'), None] for vertex in graph.vertices}
-    min_heap.change_value(source, 0)
+    queue.change_priority(0, source)
     result[source][0] = 0
 
-    while min_heap and source != target:
-        source, distance = min_heap.pop()
+    while queue and source != target:
+        distance, source = queue.pop()
 
         # Graph is disconnected
         if distance == float('inf'):
@@ -35,7 +35,7 @@ def dijkstra(graph, source, target=None):
         for other in graph[source]:
             distance_to_other = distance + graph[source][other]['weight']
             if distance_to_other < result[other][0]:
-                min_heap.change_value(other, distance_to_other)
+                queue.change_priority(distance_to_other, other)
                 result[other] = [distance_to_other, source]
 
     return result

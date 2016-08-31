@@ -3,7 +3,7 @@ graph. Time complexity: O(E log V).
 
 For more information see https://en.wikipedia.org/wiki/Prim%27s_algorithm.
 """
-from algolib.heap import BinaryHeap
+from algolib.priority_queue import PriorityQueue
 
 
 def prim(graph):
@@ -25,13 +25,13 @@ def prim(graph):
     # {vertex: [distance, closest vertex in the tree]}
     distances = {vertex: [float('inf'), None] for vertex in graph.vertices}
 
-    # Store vertex, distance pairs to min heap prioritized by distance
+    # Store vertex, distance pairs to min priority_queue prioritized by distance
     # and mark one of the vertices as start vertex
-    min_heap = BinaryHeap((vertex, float('inf')) for vertex in graph.vertices)
-    min_heap.change_value(next(iter(graph.vertices)), 0)
+    queue = PriorityQueue((float('inf'), vertex) for vertex in graph.vertices)
+    queue.change_priority(0, next(iter(graph.vertices)))
 
-    while min_heap:
-        vertex, weight = min_heap.pop()
+    while queue:
+        weight, vertex = queue.pop()
 
         # If there's a vertex that can't be reached it means that graph
         # is not connected
@@ -50,6 +50,6 @@ def prim(graph):
 
             if weight < distances.get(other, (-float('inf'), None))[0]:
                 distances[other] = (weight, vertex)
-                min_heap.change_value(other, weight)
+                queue.change_priority(weight, other)
 
     return edges

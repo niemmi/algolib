@@ -39,7 +39,7 @@ def compare(x, y):
 
 
 def bubble_down(heap, index):
-    """Moves item down to correct place in min heap.
+    """Moves item down to correct place in min priority_queue.
 
     Args:
         heap: Heap
@@ -59,7 +59,7 @@ def bubble_down(heap, index):
 def sort(lst):
     """Parallel merge sort running on multiple cores. Splits given sequence
     to even chunks which are then sorted by separate cores using sorted builtin.
-    Once every core has finished chunks are merged together using min-heap.
+    Once every core has finished chunks are merged together using min-priority_queue.
 
     Since Python has GIL multiple processes needs to be used instead of threads
     which would block each other.
@@ -73,13 +73,13 @@ def sort(lst):
     chunks = chunk(lst, multiprocessing.cpu_count())
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
 
-    # Build heap of [current, iterator] items
+    # Build priority_queue of [current, iterator] items
     heap = [[next(it), it] for it in
             (iter(c) for c in pool.map(sorted, chunks) if c)]
     for i in xrange((len(heap) - 1) / 2, -1, -1):
         bubble_down(heap, i)
 
-    # Merge items from heap, note that since the number of chunks is typically
+    # Merge items from priority_queue, note that since the number of chunks is typically
     # low merging might be faster using simple list
     res = []
     while heap:

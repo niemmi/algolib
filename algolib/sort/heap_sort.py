@@ -2,7 +2,7 @@
 
 
 def bubble_down(lst, length, index):
-    """Moves number in max-heap down to its' correct place.
+    """Moves number in max-priority_queue down to its' correct place.
 
     Args:
         lst: List
