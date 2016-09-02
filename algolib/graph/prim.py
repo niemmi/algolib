@@ -6,11 +6,21 @@ For more information see https://en.wikipedia.org/wiki/Prim%27s_algorithm.
 from algolib.priority_queue import PriorityQueue
 
 
-def prim(graph):
+def prim(graph, queue_constructor=PriorityQueue):
     """Finds minimum spanning tree from undirected weighted graph.
 
     Args:
         graph: Undirected graph where each edge has 'weight' property.
+        queue_constructor: Optional argument used to construct priority queue,
+            must satisfy following requirements:
+            - Accepts iterable of (priority, key) tuples as argument.
+            - Returned object must support pop() that returns (priority, key)
+                tuple that has minimum priority, in case multiple keys have
+                same priority any of them will do.
+            - Returned object must support change_priority(priority, key) that
+                will change the priority of existing key.
+            - Returned object must evaluate True in boolean context in case it
+                contains items and False if it's empty.
 
     Returns:
         List of edges in minimum spanning tree.
@@ -27,7 +37,8 @@ def prim(graph):
 
     # Store vertex, distance pairs to min priority_queue prioritized by distance
     # and mark one of the vertices as start vertex
-    queue = PriorityQueue((float('inf'), vertex) for vertex in graph.vertices)
+    queue = queue_constructor((float('inf'), vertex)
+                              for vertex in graph.vertices)
     queue.change_priority(0, next(iter(graph.vertices)))
 
     while queue:

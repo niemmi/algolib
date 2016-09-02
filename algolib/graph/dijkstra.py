@@ -7,7 +7,7 @@ Time complexity: O(E log V)
 from algolib.priority_queue import PriorityQueue
 
 
-def dijkstra(graph, source, target=None):
+def dijkstra(graph, source, target=None, queue_constructor=PriorityQueue):
     """Dijkstra's algorithm that finds minimum distance from given vertex.
 
     Args:
@@ -15,12 +15,23 @@ def dijkstra(graph, source, target=None):
         source: Vertex to star from.
         target: Optional target vertex, if not given distance to every vertex
             reachable from source is calculated.
+        queue_constructor: Optional argument used to construct priority queue,
+            must satisfy following requirements:
+            - Accepts iterable of (priority, key) tuples as argument.
+            - Returned object must support pop() that returns (priority, key)
+                tuple that has minimum priority, in case multiple keys have
+                same priority any of them will do.
+            - Returned object must support change_priority(priority, key) that
+                will change the priority of existing key.
+            - Returned object must evaluate True in boolean context in case it
+                contains items and False if it's empty.
 
     Returns:
         Dictionary where vertices are keys and values are [distance, parent]
         pairs.
     """
-    queue = PriorityQueue((float('inf'), vertex) for vertex in graph.vertices)
+    queue = queue_constructor((float('inf'), vertex)
+                              for vertex in graph.vertices)
     result = {vertex: [float('inf'), None] for vertex in graph.vertices}
     queue.change_priority(0, source)
     result[source][0] = 0
