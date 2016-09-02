@@ -40,13 +40,14 @@ class DisjointSet(object):
         Returns:
             Set identifier which is one of the items in the object.
         """
-        while True:
-            parent = self._items[item][0]
-            if parent == item:
-                # Note that we could do add path compression here to make
-                # subsequent searches faster
-                return item
-            item = parent
+        parent = self._items[item][0]
+        if item != parent:
+            parent = self.find(parent)
+
+            # Compress path
+            self._items[item][0] = parent
+
+        return parent
 
     def union(self, x, y):
         """Merges sets containing two different items together. If items already
