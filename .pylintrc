@@ -4,7 +4,7 @@ no-docstring-rgx=__.*
 # x and y are perfect for coordinates
 # to is valid name
 # v, n ok for vertex & neighbor
-good-names=i,j,k,ex,Run,_,x,y,to,it,op,v,n
+good-names=i,j,k,ex,Run,_,x,y,to,it,op,v,n,s
 
 
 [MESSAGES CONTROL]
