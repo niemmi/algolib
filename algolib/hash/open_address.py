@@ -59,7 +59,7 @@ class Hash(object):
         """
         size = len(table)
         start = hash(item) % size
-        for i in xrange(start, start + size):
+        for i in range(start, start + size):
             yield i % size
 
     @staticmethod
@@ -192,7 +192,7 @@ class Hash(object):
         # removed item need to be hashed. Collect all them to rehash.
         rehash = []
         length = len(self.table)
-        for i in xrange(index, index + length):
+        for i in range(index, index + length):
             i %= len(self.table)
             if self.table[i] == SENTINEL:
                 break
@@ -214,7 +214,7 @@ class Hash(object):
         """
         # If items would be stored to doubly linked list time complexity
         # would be O(1)
-        for i in xrange(len(self.table)):
+        for i in range(len(self.table)):
             x = self.table[i]
             if x != SENTINEL:
                 self.__remove(i)

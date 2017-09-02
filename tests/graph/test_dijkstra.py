@@ -89,7 +89,7 @@ class TestDijkstra(TestCase):
         graph.insert_edge(2, 3, weight=1)
         graph.insert_edge(3, 4, weight=1)
 
-        for dest in xrange(3):
+        for dest in range(3):
             result = dijkstra(graph, 0, dest)
             self.assertIsNone(result[4][1])
 
@@ -106,6 +106,6 @@ class TestDijkstra(TestCase):
         graph.insert_edge(2, 3, weight=1)
         graph.insert_vertex(4)
 
-        for source in xrange(4):
+        for source in range(4):
             result = dijkstra(graph, source, 4)
             self.assertIsNone(dijkstra_path(result, source, 4))

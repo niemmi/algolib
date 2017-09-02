@@ -6,8 +6,7 @@ supported.
 The comments in insert and remove refer to Wikipedia article:
 - https://en.wikipedia.org/wiki/Red%E2%80%93black_tree
 """
-
-from itertools import izip, izip_longest, takewhile
+from itertools import zip_longest, takewhile
 import operator
 
 
@@ -282,7 +281,13 @@ class Node(object):
 
         # Red node can just be removed
         # Black node with red child can be replaced with recolored child
-        child = max(node.left, node.right)
+        if node.right is None:
+            child = node.left
+        elif node.left is None:
+            child = node.right
+        else:
+            child = max(node.left, node.right)
+
         if node.red or child:
             if node.parent:
                 if node.parent.left == node:
@@ -384,6 +389,7 @@ class Node(object):
         return root
     # pylint: enable=too-many-branches, too-many-statements
 
+
 class Tree(object):
     """Red black tree.
 
@@ -402,10 +408,10 @@ class Tree(object):
         """
         self.root = None
         self.size = 0
-        self.insert_iter(it)
+        self.extend(it)
 
     def insert(self, value):
-        """Insert value to the tree/
+        """Insert value to the tree.
 
         Args:
             value: Value to insert.
@@ -416,8 +422,8 @@ class Tree(object):
         self.root = Node.insert(self.root, value)
         self.size += 1
 
-    def insert_iter(self, it):
-        """Inserts all valuebles from given iterable to the tree.
+    def extend(self, it):
+        """Inserts all values from given iterable to the tree.
 
         Args:
             it: Iterable containing values to add.
@@ -451,7 +457,7 @@ class Tree(object):
 
         return node
 
-    def __nonzero__(self):
+    def __bool__(self):
         return bool(self.root)
 
     def __eq__(self, other):
@@ -459,13 +465,13 @@ class Tree(object):
             return False
 
         fill = object()
-        return all(x == y for x, y in izip_longest(self, other, fillvalue=fill))
+        return all(x == y for x, y in zip_longest(self, other, fillvalue=fill))
 
     def __ne__(self, other):
         return not self == other
 
     def __diff(self, other):
-        for x, y in izip(self, other):
+        for x, y in zip(self, other):
             if x < y:
                 return -1
             elif x > y:
@@ -596,7 +602,7 @@ class Tree(object):
             it = reversed(self.__find_le(start) or [])
             op = operator.gt
 
-        if stop is None:
-            return it
-        else:
-            return takewhile(lambda x: op(x, stop), it)
+        if stop is not None:
+            it = takewhile(lambda x: op(x, stop), it)
+
+        return it

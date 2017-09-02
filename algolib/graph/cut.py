@@ -57,6 +57,7 @@ def __process_edge(_graph, dfs, source, dest, _edge):
 
     return True
 
+
 def cut_vertices(graph):
     """Returns all the cut vertices in given undirected graph.
 

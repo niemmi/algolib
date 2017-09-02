@@ -25,8 +25,8 @@ class TestBFSUndirected(TestCase):
             self.g.insert_edge(x, y)
 
         # Hackery to ensure the order children are processed
-        for v, d in self.g._neighbors.iteritems():
-            self.g._neighbors[v] = OrderedDict(sorted(d.iteritems()))
+        for v, d in self.g._neighbors.items():
+            self.g._neighbors[v] = OrderedDict(sorted(d.items()))
 
     def test_call_process_vertex_early(self):
         bfs = None

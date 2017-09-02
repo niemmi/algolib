@@ -42,7 +42,7 @@ class PriorityQueue(object):
     def __bubble_down(self, index):
         while True:
             min_index = index
-            for i in xrange(index * 2 + 1, min(len(self), index * 2 + 3)):
+            for i in range(index * 2 + 1, min(len(self), index * 2 + 3)):
                 if self.__heap[i] < self.__heap[min_index]:
                     min_index = i
 
@@ -54,7 +54,7 @@ class PriorityQueue(object):
 
     def __bubble_up(self, index):
         while index:
-            parent = (index - 1) / 2
+            parent = (index - 1) // 2
             if self.__heap[parent] <= self.__heap[index]:
                 break
             self.__swap(parent, index)

@@ -25,7 +25,7 @@ def create(seq):
             so seq[0] is not considered.
     """
     limit = len(seq)
-    for i in xrange(1, limit):
+    for i in range(1, limit):
         j = i + (i & -i)
         if j < limit:
             seq[j] += seq[i]

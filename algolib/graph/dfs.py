@@ -152,8 +152,8 @@ class DFS(object):
             return self.BACK
         elif self[source].entry > self[dest].entry:
             return self.CROSS
-        else:
-            return self.FORWARD
+
+        return self.FORWARD
 
     def __getitem__(self, item):
         return self._vertex[item]

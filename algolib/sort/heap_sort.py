@@ -10,7 +10,7 @@ def bubble_down(lst, length, index):
         index: Index of number to move
     """
     max_index = index
-    for i in xrange(index * 2 + 1, min(length, index * 2 + 3)):
+    for i in range(index * 2 + 1, min(length, index * 2 + 3)):
         if lst[i] > lst[max_index]:
             max_index = i
 
@@ -28,10 +28,10 @@ def sort(lst):
     length = len(lst)
 
     # Heapify, O(n) time complexity
-    for i in xrange((length - 1) / 2, -1, -1):
+    for i in range((length - 1) // 2, -1, -1):
         bubble_down(lst, length, i)
 
     # Extract max, swap to end, O(n log n) time complexity
-    for i in xrange(length - 1, 0, -1):
+    for i in range(length - 1, 0, -1):
         lst[0], lst[i] = lst[i], lst[0]
         bubble_down(lst, i, 0)

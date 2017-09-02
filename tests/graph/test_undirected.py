@@ -42,7 +42,7 @@ class TestUndirected(unittest.TestCase):
         neighbors = set(self.g[7].keys())
         degree = self.g.degree(7)
         self.g.insert_vertex(7)
-        self.assertEqual(neighbors, self.g[7].viewkeys())
+        self.assertEqual(neighbors, self.g[7].keys())
         self.assertEqual(degree, self.g.degree(7))
 
     def test_insert_vertex_doesnt_override_existing_properties(self):
@@ -54,7 +54,7 @@ class TestUndirected(unittest.TestCase):
         self.assertEqual(kwargs, self.g.vertices[9])
 
     def test_remove_vertex_removes_vertex(self):
-        for v in self.g.vertices.keys():
+        for v in tuple(self.g.vertices.keys()):
             self.g.remove_vertex(v)
             self.assertNotIn(v, self.g.vertices)
 

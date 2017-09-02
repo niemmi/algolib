@@ -15,11 +15,12 @@ def __process_edge(_graph, bfs, source, dest, _edge):
     bfs.color[dest] = int(not bfs.color[source])
     return True
 
+
 def bipartite(graph):
     """Checks if given graph is bipartite.
 
     Args:
-        graph: Graph to check/
+        graph: Graph to check.
 
     Returns:
         True if graph is bipartite, False if not.

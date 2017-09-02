@@ -1,5 +1,5 @@
 from unittest import TestCase
-from context import Directed, strong_components
+from .context import Directed, strong_components
 
 CASES = [
     {
@@ -25,6 +25,7 @@ CASES = [
         }
     }
 ]
+
 
 class TestStrongComponents(TestCase):
     def test_strong_components(self):

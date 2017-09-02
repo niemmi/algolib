@@ -47,7 +47,7 @@ def bubble_down(heap, index):
     """
     min_index = index
 
-    for i in xrange(index * 2 + 1, min(len(heap), index * 2 + 3)):
+    for i in range(index * 2 + 1, min(len(heap), index * 2 + 3)):
         if compare(heap[i], heap[min_index]) < 0:
             min_index = i
 
@@ -59,7 +59,8 @@ def bubble_down(heap, index):
 def sort(lst):
     """Parallel merge sort running on multiple cores. Splits given sequence
     to even chunks which are then sorted by separate cores using sorted builtin.
-    Once every core has finished chunks are merged together using min-priority_queue.
+    Once every core has finished chunks are merged together using
+    min-priority queue.
 
     Since Python has GIL multiple processes needs to be used instead of threads
     which would block each other.
@@ -76,11 +77,11 @@ def sort(lst):
     # Build priority_queue of [current, iterator] items
     heap = [[next(it), it] for it in
             (iter(c) for c in pool.map(sorted, chunks) if c)]
-    for i in xrange((len(heap) - 1) / 2, -1, -1):
+    for i in range((len(heap) - 1) // 2, -1, -1):
         bubble_down(heap, i)
 
-    # Merge items from priority_queue, note that since the number of chunks is typically
-    # low merging might be faster using simple list
+    # Merge items from priority_queue, note that since the number of chunks
+    # is typically low merging might be faster using simple list.
     res = []
     while heap:
         res.append(heap[0][0])
@@ -97,20 +98,20 @@ def sort(lst):
 # pylint: disable=C0103
 if __name__ == '__main__':
     sample_size = 1000000
-    print 'Sorting {} items'.format(sample_size)
+    print('Sorting {} items'.format(sample_size))
 
     multiprocessing.freeze_support()
-    source = [random.randint(0, sample_size / 2) for _ in xrange(sample_size)]
+    source = [random.randint(0, sample_size / 2) for _ in range(sample_size)]
     start = time.clock()
     sort(source)
 
-    print 'Parallel sort running on {} cores: {} secs'.format(
+    print('Parallel sort running on {} cores: {} secs'.format(
         multiprocessing.cpu_count(),
         time.clock() - start
-    )
+    ))
 
     start = time.clock()
     sorted(source)
 
-    print 'Built-in sorted: {} secs'.format(time.clock() - start)
+    print('Built-in sorted: {} secs'.format(time.clock() - start))
 # pylint: enable=C0103

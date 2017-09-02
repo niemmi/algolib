@@ -10,12 +10,12 @@ class TestSelectionSort(unittest.TestCase):
         self.assertEqual([], l)
 
     def test_sorted(self):
-        l = range(10)
+        l = list(range(10))
         selection_sort.sort(l)
-        self.assertEqual(range(10), l)
+        self.assertEqual(list(range(10)), l)
 
     def test_random(self):
-        for i in xrange(1, 100):
-            l = random.sample(xrange(1000000), i)
+        for i in range(1, 100):
+            l = random.sample(range(1000000), i)
             selection_sort.sort(l)
             self.assertEqual(sorted(l), l)

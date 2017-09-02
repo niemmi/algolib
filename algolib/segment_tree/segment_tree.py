@@ -38,9 +38,10 @@ class SegmentTree(object):
 
         if seq:
             lowest_lvl = 2 ** depth
+            seq = list(seq)
             tree = [0] * (lowest_lvl - 1) + seq + [0] * (lowest_lvl - size)
 
-            for i in xrange(depth - 1, -1, -1):
+            for i in range(depth - 1, -1, -1):
                 for j in range(2 ** i - 1, 2 ** (i + 1) - 1):
                     tree[j] = max(tree[2 * j + 1], tree[2 * j + 2])
         else:
@@ -60,7 +61,7 @@ class SegmentTree(object):
         Returns:
             Value in given index
         """
-        return self.__tree[len(self.__tree) / 2 + index]
+        return self.__tree[len(self.__tree) // 2 + index]
 
     def query_left(self, index):
         """Returns the maximum value in range 0...index (inclusive).
@@ -71,11 +72,11 @@ class SegmentTree(object):
         Returns:
             Maximum value in the range
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
 
         # Find first node that is not a right child
         while index and index % 2 == 0:
-            index = (index - 1) / 2
+            index = (index - 1) // 2
 
         res = self.__tree[index]
 
@@ -83,7 +84,7 @@ class SegmentTree(object):
         while index:
             if index % 2 == 0:
                 res = max(res, self.__tree[index - 1])
-            index = (index - 1) / 2
+            index = (index - 1) // 2
 
         return res
 
@@ -96,11 +97,11 @@ class SegmentTree(object):
         Returns:
             Maximum value in the range
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
 
         # Find first node that is not a left child
         while index % 2:
-            index = (index - 1) / 2
+            index = (index - 1) // 2
 
         res = self.__tree[index]
 
@@ -108,7 +109,7 @@ class SegmentTree(object):
         while index:
             if index % 2:
                 res = max(res, self.__tree[index + 1])
-            index = (index - 1) / 2
+            index = (index - 1) // 2
 
         return res
 
@@ -122,8 +123,8 @@ class SegmentTree(object):
         Returns:
             Maximum value in the range
         """
-        start = len(self.__tree) / 2 + r_start
-        end = len(self.__tree) / 2 + r_end
+        start = len(self.__tree) // 2 + r_start
+        end = len(self.__tree) // 2 + r_end
 
         val_s = self.__tree[start]
         val_e = self.__tree[end]
@@ -139,8 +140,8 @@ class SegmentTree(object):
             if end % 2 == 0:
                 val_e = max(val_e, self.__tree[end - 1])
 
-            start = (start - 1) / 2
-            end = (end - 1) / 2
+            start = (start - 1) // 2
+            end = (end - 1) // 2
 
         return max(val_s, val_e)
 
@@ -151,12 +152,12 @@ class SegmentTree(object):
             index: Index to update
             val: New value
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
         self.__tree[index] = val
 
         # Update parent nodes while the new value is larger than current
         while index:
-            index = (index - 1) / 2
+            index = (index - 1) // 2
             if val <= self.__tree[index]:
                 break
             self.__tree[index] = val
@@ -169,7 +170,7 @@ class SegmentTree(object):
             range_end: Range end
             value: New value
         """
-        return self.__update_range(0, 0, len(self.__tree) / 2,
+        return self.__update_range(0, 0, len(self.__tree) // 2,
                                    range_start, range_end, value)
 
     # pylint: disable=too-many-arguments
@@ -184,7 +185,7 @@ class SegmentTree(object):
             return
 
         # Multi value segment, update both children and then update self
-        mid = s_start + (s_end - s_start) / 2
+        mid = s_start + (s_end - s_start) // 2
         self.__update_range(index * 2 + 1, s_start, mid,
                             r_start, r_end, value)
         self.__update_range(index * 2 + 2, mid + 1, s_end,

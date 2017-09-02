@@ -61,6 +61,7 @@ CASES = [
     },
 ]
 
+
 class TestFloyd(TestCase):
     def test_floyd(self):
         for case in CASES:

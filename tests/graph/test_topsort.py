@@ -20,6 +20,7 @@ CASES = [
     [[['E', 'B']], None]
 ]
 
+
 class TestTopSort(TestCase):
     def test_top_sort(self):
         graph = Directed()

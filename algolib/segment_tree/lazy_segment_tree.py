@@ -42,10 +42,11 @@ class SegmentTree(object):
         depth = int(ceil(log(size, 2)))
 
         if seq:
+            seq = list(seq)
             lowest_lvl = 2 ** depth
             tree = [0] * (lowest_lvl - 1) + seq + [0] * (lowest_lvl - size)
 
-            for i in xrange(depth - 1, -1, -1):
+            for i in range(depth - 1, -1, -1):
                 for j in range(2 ** i - 1, 2 ** (i + 1) - 1):
                     tree[j] = max(tree[2 * j + 1], tree[2 * j + 2])
         else:
@@ -66,12 +67,12 @@ class SegmentTree(object):
         Returns:
             Value in given index
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
         res = self.__tree[index]
 
         # Iterate to root while adding pending updates
         while index:
-            index = (index - 1) / 2
+            index = (index - 1) // 2
             res += self.__pending[index]
 
         return res
@@ -85,11 +86,11 @@ class SegmentTree(object):
         Returns:
             Maximum value in the range
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
 
         # Find first node that is not a right child
         while index and index % 2 == 0:
-            index = (index - 1) / 2
+            index = (index - 1) // 2
 
         res = self.__tree[index]
 
@@ -98,7 +99,7 @@ class SegmentTree(object):
         while index:
             if index % 2 == 0:
                 res = max(res, self.__tree[index - 1])
-            index = (index - 1) / 2
+            index = (index - 1) // 2
             res += self.__pending[index]
 
         return res
@@ -112,11 +113,11 @@ class SegmentTree(object):
         Returns:
             Maximum value in the range
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
 
         # Find first node that is not a left child
         while index % 2:
-            index = (index - 1) / 2
+            index = (index - 1) // 2
 
         res = self.__tree[index]
 
@@ -125,7 +126,7 @@ class SegmentTree(object):
         while index:
             if index % 2:
                 res = max(res, self.__tree[index + 1])
-            index = (index - 1) / 2
+            index = (index - 1) // 2
             res += self.__pending[index]
 
         return res
@@ -140,14 +141,14 @@ class SegmentTree(object):
         Returns:
             Maximum value in the range
         """
-        start = len(self.__tree) / 2 + r_start
-        end = len(self.__tree) / 2 + r_end
+        start = len(self.__tree) // 2 + r_start
+        end = len(self.__tree) // 2 + r_end
 
         val_s = self.__tree[start]
         val_e = self.__tree[end]
 
         # Traverse up the tree while start and end are not siblings
-        while (start - 1) / 2 != (end - 1) / 2:
+        while (start - 1) // 2 != (end - 1) // 2:
 
             # If start is left child then consider right child as well
             if start % 2:
@@ -157,8 +158,8 @@ class SegmentTree(object):
             if end % 2 == 0:
                 val_e = max(val_e, self.__tree[end - 1])
 
-            start = (start - 1) / 2
-            end = (end - 1) / 2
+            start = (start - 1) // 2
+            end = (end - 1) // 2
 
             val_s += self.__pending[start]
             val_e += self.__pending[end]
@@ -167,7 +168,7 @@ class SegmentTree(object):
 
         # Traverse to root and and pending updates
         while start:
-            start = (start - 1) / 2
+            start = (start - 1) // 2
             val += self.__pending[start]
 
         return val
@@ -179,7 +180,7 @@ class SegmentTree(object):
             index: Index to update
             diff: Value to add
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
         self.__tree[index] += diff
 
         # Update parent nodes if needed
@@ -192,12 +193,12 @@ class SegmentTree(object):
             index: Last index to update
             diff: Value to add
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
 
         # Handle sequence of right children and first left child
         if index and index % 2 == 0:
             while index and index % 2 == 0:
-                index = (index - 1) / 2
+                index = (index - 1) // 2
             self.__pending[index] += diff
 
         self.__tree[index] += diff
@@ -212,7 +213,7 @@ class SegmentTree(object):
                 self.__tree[index - 1] += diff
 
             # Move up the tree
-            index = (index - 1) / 2
+            index = (index - 1) // 2
 
             # Update this node
             val = max(self.__tree[index * 2 + 1], self.__tree[index * 2 + 2])
@@ -225,12 +226,12 @@ class SegmentTree(object):
             index: First index to update
             diff: Value to add
         """
-        index += len(self.__tree) / 2
+        index += len(self.__tree) // 2
 
         # Handle sequence of left children and first right child
         if index % 2:
             while index % 2:
-                index = (index - 1) / 2
+                index = (index - 1) // 2
             self.__pending[index] += diff
 
         self.__tree[index] += diff
@@ -245,7 +246,7 @@ class SegmentTree(object):
                 self.__tree[index + 1] += diff
 
             # Move up the tree
-            index = (index - 1) / 2
+            index = (index - 1) // 2
 
             # Update this node
             val = max(self.__tree[index * 2 + 1], self.__tree[index * 2 + 2])
@@ -259,8 +260,8 @@ class SegmentTree(object):
             range_end: Last index to update
             diff: Value to add
         """
-        start = len(self.__tree) / 2 + range_start
-        end = len(self.__tree) / 2 + range_end
+        start = len(self.__tree) // 2 + range_start
+        end = len(self.__tree) // 2 + range_end
         l_pending = r_pending = True
 
         if start == end:
@@ -277,9 +278,9 @@ class SegmentTree(object):
             r_pending = False
 
         # Traverse up the tree while start and end are not siblings
-        while (start - 1) / 2 != (end - 1) / 2:
-            start = (start - 1) / 2
-            end = (end - 1) / 2
+        while (start - 1) // 2 != (end - 1) // 2:
+            start = (start - 1) // 2
+            end = (end - 1) // 2
 
             # Potentially update sibling of start and end unless they
             # are each other's siblings
@@ -321,7 +322,7 @@ class SegmentTree(object):
         # not fully withing a range. Handle the cases where one of them is
         # fully within here.
         if l_pending and r_pending:
-            self.__pending[(start - 1) / 2] += diff
+            self.__pending[(start - 1) // 2] += diff
         elif l_pending:
             self.__tree[start] += diff
             self.__pending[start] += diff
@@ -336,7 +337,7 @@ class SegmentTree(object):
         val = self.__tree[index]
 
         while index:
-            index = (index - 1) / 2
+            index = (index - 1) // 2
             val += self.__pending[index]
             if val <= self.__tree[index]:
                 break

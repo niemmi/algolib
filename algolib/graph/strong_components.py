@@ -6,6 +6,7 @@ Time complexity: O(V + E)
 from collections import defaultdict
 from algolib.graph.dfs import DFS
 
+
 def __process_vertex_early(_graph, dfs, vertex):
     dfs.stack.append(vertex)
 
@@ -37,6 +38,7 @@ def __process_edge(_graph, dfs, source, dest, _edge):
             src.low = dest
 
     return True
+
 
 def strong_components(graph):
     """Finds strongly connected components from given directed graph.

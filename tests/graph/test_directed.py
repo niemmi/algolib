@@ -41,8 +41,8 @@ class TestDirected(unittest.TestCase):
         outgoing = set(self.g._outgoing[1].keys())
         incoming = set(self.g.incoming[1].keys())
         self.g.insert_vertex(1)
-        self.assertEqual(outgoing, self.g._outgoing[1].viewkeys())
-        self.assertEqual(incoming, self.g.incoming[1].viewkeys())
+        self.assertEqual(outgoing, self.g._outgoing[1].keys())
+        self.assertEqual(incoming, self.g.incoming[1].keys())
 
     def test_insert_vertex_doesnt_override_existing_properties(self):
         kwargs = {'foo': 'bar'}
@@ -54,7 +54,7 @@ class TestDirected(unittest.TestCase):
         self.assertEqual(kwargs, self.g.vertices[5])
 
     def test_remove_vertex_removes_vertex(self):
-        for v in self.g.vertices.keys():
+        for v in tuple(self.g.vertices.keys()):
             self.g.remove_vertex(v)
             self.assertNotIn(v, self.g.vertices)
 

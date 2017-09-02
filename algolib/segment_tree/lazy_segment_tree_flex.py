@@ -88,7 +88,7 @@ class SegmentTree(object):
         if s_start == s_end:
             self.__tree[index] = seq[s_start]
         else:
-            mid = s_start + (s_end - s_start) / 2
+            mid = s_start + (s_end - s_start) // 2
             self.__make_segment(seq, s_start, mid, index * 2 + 1)
             self.__make_segment(seq, mid + 1, s_end, index * 2 + 2)
             self.__tree[index] = self.__merge_value(self.__tree[index * 2 + 1],
@@ -115,7 +115,7 @@ class SegmentTree(object):
         if r_start <= s_start and r_end >= s_end:
             return self.__tree[index]
 
-        mid = s_start + (s_end - s_start) / 2
+        mid = s_start + (s_end - s_start) // 2
 
         # If range only intersects with left child
         if mid >= r_end:
@@ -158,7 +158,7 @@ class SegmentTree(object):
                     self.__pending[index], diff)
             return
 
-        mid = s_start + (s_end - s_start) / 2
+        mid = s_start + (s_end - s_start) // 2
         # Only values in left child need to be updated
         if mid >= r_end:
             self.__update_range(index * 2 + 1, s_start, mid, r_start,

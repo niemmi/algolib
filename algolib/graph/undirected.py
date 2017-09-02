@@ -176,9 +176,9 @@ class Undirected(object):
 
     def __copy__(self):
         copy = Undirected()
-        for vertex, data in self.vertices.iteritems():
+        for vertex, data in self.vertices.items():
             copy.insert_vertex(vertex, **data)
-        for (x, y), data in self.edges.iteritems():
+        for (x, y), data in self.edges.items():
             copy.insert_edge(x, y, **data)
 
         return copy

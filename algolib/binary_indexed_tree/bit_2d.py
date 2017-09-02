@@ -27,11 +27,11 @@ def create(matrix):
     limit_y = len(matrix)
     limit_x = len(matrix[0])
 
-    for y in xrange(1, limit_y):
+    for y in range(1, limit_y):
         bit.create(matrix[y])
 
-    for x in xrange(1, limit_x):
-        for y in xrange(1, limit_y):
+    for x in range(1, limit_x):
+        for y in range(1, limit_y):
             k = y + (y & -y)
             if k < limit_y:
                 matrix[k][x] += matrix[y][x]

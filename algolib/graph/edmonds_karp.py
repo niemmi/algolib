@@ -6,7 +6,7 @@ For more information see Wikipedia:
 https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
 """
 from collections import deque
-from itertools import izip, tee
+from itertools import tee
 from algolib.graph.bfs import BFS
 from algolib.graph.directed import Directed
 
@@ -19,7 +19,7 @@ def __process_edge(graph, _dfs, source, dest, _edge):
 def __pairwise(it):
     x, y = tee(it)
     next(y, None)
-    return izip(x, y)
+    return zip(x, y)
 
 
 def __initialize_result(graph):
@@ -30,13 +30,13 @@ def __initialize_result(graph):
         result = graph.copy()
         # Iterate over source graph since we're changing the result that can't
         # be done while iterating and they have same edges anyway
-        for x, y in graph.edges.iterkeys():
+        for x, y in graph.edges.keys():
             result.edges[(x, y)]['flow'] = 0
             if x not in result[y]:
                 result.insert_edge(y, x, flow=0, capacity=0)
     else:
         result = Directed()
-        for (x, y), properties in graph.edges.iteritems():
+        for (x, y), properties in graph.edges.items():
             result.insert_edge(x, y, flow=0, capacity=properties['capacity'])
             result.insert_edge(y, x, flow=0, capacity=properties['capacity'])
 
@@ -70,6 +70,7 @@ def edmonds_karp(graph, source, destination):
         bfs.execute(source)
 
         # Generate path from BFS result
+        terminate = False
         current = destination
         path = deque([current])
         while current != source:
@@ -77,10 +78,14 @@ def edmonds_karp(graph, source, destination):
 
             # If there's no more augmenting path we're done
             if parent is None:
-                return result, total
+                terminate = True
+                break
 
             path.appendleft(parent)
             current = parent
+
+        if terminate:
+            break
 
         # Find the minimum capacity along the augmenting path, that's the
         # amount of flow that can be added
@@ -101,7 +106,7 @@ def edmonds_karp(graph, source, destination):
                 result[y][x]['flow'] = 0
 
     # Sanitize the result by removing edges which don't have any flow
-    remove = {edge for edge, properties in result.edges.iteritems()
+    remove = {edge for edge, properties in result.edges.items()
               if not properties['flow']}
 
     for edge in remove:

@@ -117,7 +117,7 @@ class TestDFSUndirected(TestCase):
         self.assertEqual(set(self.g.vertices.keys()), called)
 
     def test_edge_category(self):
-        def hook(graph, dfs, source, dest, edge):
+        def hook(_graph, dfs, source, dest, _edge):
             category = dfs.edge_category(source, dest)
             self.assertEqual(CATEGORIES[(source, dest)], category)
 
@@ -149,11 +149,12 @@ class TestDFSDirected(TestCase):
             self.g.insert_edge(x, y)
 
         # Hackery to ensure the order children are processed
-        for v, d in self.g._outgoing.iteritems():
-            self.g._outgoing[v] = OrderedDict(sorted(d.iteritems()))
+        for v, d in self.g._outgoing.items():
+            self.g._outgoing[v] = OrderedDict(sorted(d.items()))
 
     def test_edge_category(self):
         def hook(_, dfs, x, y, e):
             self.assertEqual(CATEGORIES_DIRECTED[e], dfs.edge_category(x, y))
+            return True
 
-        DFS(self.g).execute(0)
+        DFS(self.g, process_edge=hook).execute(0)

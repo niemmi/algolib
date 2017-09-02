@@ -62,7 +62,7 @@ class DisjointSet(object):
 
         if parent_x != parent_y:
             merge_from, merge_to = sorted([parent_x, parent_y],
-                                          key=lambda x: self._items[x][1])
+                                          key=lambda i: self._items[i][1])
             self._items[merge_from][0] = merge_to
             self._items[merge_to][1] += self._items[merge_from][1]
 

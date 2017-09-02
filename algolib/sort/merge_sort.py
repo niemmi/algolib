@@ -17,7 +17,7 @@ def sort(lst):
     if len(lst) <= 1:
         return lst
 
-    mid = len(lst) / 2
+    mid = len(lst) // 2
     low = sort(lst[:mid])
     high = sort(lst[mid:])
 
@@ -55,7 +55,7 @@ def helper(lst, buf, start, stop, to_buf):
             buf[start] = lst[start]
         return
 
-    mid = start + length / 2
+    mid = start + length // 2
     helper(lst, buf, start, mid, not to_buf)
     helper(lst, buf, mid, stop, not to_buf)
 
@@ -78,11 +78,11 @@ def helper(lst, buf, start, stop, to_buf):
 
         to += 1
 
-    for i in xrange(i, mid):
+    for i in range(i, mid):
         lst[to] = buf[i]
         to += 1
 
-    for j in xrange(j, stop):
+    for j in range(j, stop):
         lst[to] = buf[j]
         to += 1
 

@@ -186,10 +186,10 @@ class Directed(object):
 
     def __copy__(self):
         other = Directed()
-        for vertex, properties in self.vertices.iteritems():
+        for vertex, properties in self.vertices.items():
             other.insert_vertex(vertex, **properties)
 
-        for (x, y), properties in self.edges.iteritems():
+        for (x, y), properties in self.edges.items():
             other.insert_edge(x, y, **properties)
 
         return other

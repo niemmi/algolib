@@ -36,7 +36,7 @@ class BucketQueue(object):
             self.__buckets[priority].add(key)
             self.__keys[key] = priority
 
-        self.__heap = self.__buckets.keys()
+        self.__heap = list(self.__buckets.keys())
         heapq.heapify(self.__heap)
         self.__position = {x: i for i, x in enumerate(self.__heap)}
 
@@ -52,7 +52,7 @@ class BucketQueue(object):
         while True:
             min_index = index
             max_len = min(len(self.__heap), index * 2 + 3)
-            for i in xrange(index * 2 + 1, max_len):
+            for i in range(index * 2 + 1, max_len):
                 if self.__heap[i] < self.__heap[min_index]:
                     min_index = i
 
@@ -64,7 +64,7 @@ class BucketQueue(object):
 
     def __bubble_up(self, index):
         while index:
-            parent = (index - 1) / 2
+            parent = (index - 1) // 2
             if self.__heap[parent] <= self.__heap[index]:
                 break
             self.__swap(parent, index)
@@ -103,7 +103,7 @@ class BucketQueue(object):
         del self.__heap[-1]
 
         if index != len(self.__heap):
-            if index and self.__heap[index] < self.__heap[(index - 1) / 2]:
+            if index and self.__heap[index] < self.__heap[(index - 1) // 2]:
                 self.__bubble_up(index)
             else:
                 self.__bubble_down(index)

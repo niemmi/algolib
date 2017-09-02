@@ -10,13 +10,13 @@ class TestMergeSort(unittest.TestCase):
         self.assertEqual([], res)
 
     def test_sorted(self):
-        l = range(10)
+        l = list(range(10))
         res = merge_sort.sort(l)
-        self.assertEqual(range(10), res)
+        self.assertEqual(list(range(10)), res)
 
     def test_random(self):
-        for i in xrange(1, 100):
-            l = random.sample(xrange(1000000), i)
+        for i in range(1, 100):
+            l = random.sample(range(1000000), i)
             res = merge_sort.sort(l)
             self.assertEqual(sorted(l), res)
 
@@ -26,16 +26,13 @@ class TestMergeSort(unittest.TestCase):
         self.assertEqual([], l)
 
     def test_in_place_sorted(self):
-        l = range(10)
+        l = list(range(10))
         merge_sort.sort_in_place(l)
-        self.assertEqual(range(10), l)
+        self.assertEqual(list(range(10)), l)
 
     def test_in_place_random(self):
-        for i in xrange(1, 100):
-            l = random.sample(xrange(1000000), i)
-            copy = l[:]
+        for i in range(1, 100):
+            l = random.sample(range(1000000), i)
             merge_sort.sort_in_place(l)
-            if l != sorted(l):
-                print copy
             self.assertEqual(sorted(l), l)
 

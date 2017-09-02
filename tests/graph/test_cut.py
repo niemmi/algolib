@@ -1,5 +1,5 @@
 from unittest import TestCase
-from context import Undirected, cut_edges, cut_vertices
+from .context import Undirected, cut_edges, cut_vertices
 
 CASES = [
     {
@@ -53,6 +53,7 @@ CASES = [
         'expected_vertices': {'b', 'c', 'e', 'i'}
     }
 ]
+
 
 class TestCut(TestCase):
     @staticmethod

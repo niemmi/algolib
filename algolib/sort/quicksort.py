@@ -18,7 +18,7 @@ def sort(lst, start=0, stop=None):
 
     pivot = stop - 1
     j = start
-    for i in xrange(start, pivot):
+    for i in range(start, pivot):
         if lst[i] < lst[pivot]:
             lst[i], lst[j] = lst[j], lst[i]
             j += 1
